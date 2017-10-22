@@ -2,6 +2,7 @@ import pygame, sys, random, time
 
 
 def gameOver():
+
     font = pygame.font.SysFont('monaco', 100)
     surface = font.render('Game Over!', True, red)
     rect = surface.get_rect()
@@ -13,7 +14,22 @@ def gameOver():
     sys.exit()
 
 
+def showScore(isGameOver = False):
+
+    fontSize = 36 if not isGameOver else 56
+    font = pygame.font.SysFont('monaco', fontSize)
+    surface = font.render('Score: ' + str(score), True, black)
+    rect = surface.get_rect()
+
+    xValue = 360 if isGameOver else 50
+    yValue = 130 if isGameOver else 30
+
+    rect.midtop = (xValue, yValue)
+    screen.blit(surface, rect)
+    pygame.display.flip()
+
 check_errors = pygame.init()
+score = 0
 
 if check_errors[1] > 0:
     print("There was an error in initialization")
@@ -85,6 +101,7 @@ while True:
     snake_body.insert(0, list(snake_position))
 
     if snake_position[0] == food_position[0] and snake_position[1] == food_position[1]:
+        score += 1
         foodSpawned = False
     else:
         snake_body.pop()
@@ -99,14 +116,19 @@ while True:
         pygame.draw.rect(screen, green, pygame.Rect(position[0], position[1], 10, 10))
 
     pygame.draw.rect(screen, blue, pygame.Rect(food_position[0], food_position[1], 10, 10))
+
+    showScore()
     pygame.display.flip()
 
     fpsController.tick(23)
 
     if snake_position[0] >= 720 or snake_position[0] <= -10 or snake_position[1] >= 480 or snake_position[1] <= -10:
+        showScore(True)
         gameOver()
 
     for snake_blocks in snake_body[1:]:
         if snake_position[0] == snake_blocks[0] and snake_position[1] == snake_blocks[1]:
+            showScore(True)
             gameOver()
+
 
