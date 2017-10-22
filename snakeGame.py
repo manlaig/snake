@@ -1,6 +1,18 @@
 import pygame, sys, random, time
 
 
+def gameOver():
+    font = pygame.font.SysFont('monaco', 100)
+    surface = font.render('Game Over!', True, red)
+    rect = surface.get_rect()
+    rect.midtop = (360, 45)
+    screen.blit(surface, rect)
+    pygame.display.flip()
+    time.sleep(1)
+    pygame.quit()
+    sys.exit()
+
+
 check_errors = pygame.init()
 
 if check_errors[1] > 0:
@@ -81,15 +93,20 @@ while True:
         food_position = [random.randrange(0, 72) * 10, random.randrange(0, 48) * 10]
         foodSpawned = True
 
+    screen.fill(white)
 
+    for position in snake_body:
+        pygame.draw.rect(screen, green, pygame.Rect(position[0], position[1], 10, 10))
 
-def gameOver():
-    font = pygame.font.SysFont('monaco', 100)
-    surface = font.render('Game Over!', True, red)
-    rect = surface.get_rect()
-    rect.midtop = (360, 45)
-    screen.blit(surface, rect)
+    pygame.draw.rect(screen, blue, pygame.Rect(food_position[0], food_position[1], 10, 10))
     pygame.display.flip()
-    time.sleep(3)
-    pygame.quit()
-    sys.exit()
+
+    fpsController.tick(23)
+
+    if snake_position[0] >= 720 or snake_position[0] <= -10 or snake_position[1] >= 480 or snake_position[1] <= -10:
+        gameOver()
+
+    for snake_blocks in snake_body[1:]:
+        if snake_position[0] == snake_blocks[0] and snake_position[1] == snake_blocks[1]:
+            gameOver()
+
