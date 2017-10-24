@@ -3,7 +3,7 @@ import pygame, sys, random, time
 
 def gameOver():
 
-    font = pygame.font.SysFont('monaco', 100)
+    font = pygame.font.SysFont('calibri', 100)
     surface = font.render('Game Over!', True, red)
     rect = surface.get_rect()
     rect.midtop = (360, 45)
@@ -16,12 +16,12 @@ def gameOver():
 
 def showScore(isGameOver = False):
 
-    fontSize = 36 if not isGameOver else 56
-    font = pygame.font.SysFont('monaco', fontSize)
+    fontSize = 30 if not isGameOver else 56
+    font = pygame.font.SysFont('calibri', fontSize)
     surface = font.render('Score: ' + str(score), True, black)
     rect = surface.get_rect()
 
-    xValue = 360 if isGameOver else 50
+    xValue = 360 if isGameOver else 65
     yValue = 130 if isGameOver else 30
 
     rect.midtop = (xValue, yValue)
@@ -115,7 +115,7 @@ while True:
 
     pygame.draw.rect(screen, blue, pygame.Rect(food_position[0], food_position[1], 10, 10))
 
-    if snake_position[0] >= 720 or snake_position[0] <= 0 or snake_position[1] >= 480 or snake_position[1] <= 0:
+    if snake_position[0] >= 720 or snake_position[0] <= -20 or snake_position[1] >= 490 or snake_position[1] <= -20:
         showScore(True)
         gameOver()
 
@@ -127,4 +127,4 @@ while True:
     showScore()
     pygame.display.flip()
 
-    fpsController.tick(23)
+    fpsController.tick(20)
