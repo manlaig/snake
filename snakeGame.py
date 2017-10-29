@@ -138,3 +138,4 @@ while True:
 
     # this line is responsible of controlling the speed of the game
     fpsController.tick(20)
+    
