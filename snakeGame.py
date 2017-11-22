@@ -7,7 +7,6 @@
 import pygame, sys, random, time
 
 
-# this function is called whenever the player hits the edges of the screen
 def gameOver():
 
     font = pygame.font.SysFont('calibri', 100)
@@ -21,7 +20,6 @@ def gameOver():
     sys.exit()
 
 
-# this function called to display the score on the screen during and after the game
 def showScore(isGameOver = False):
 
     fontSize = 30 if not isGameOver else 56
@@ -38,7 +36,7 @@ def showScore(isGameOver = False):
 
 score = 0
 check_errors = pygame.init()
-fpsController = pygame.time.Clock()     # by doing this, we're controlling the frames per second
+gamePlaySpeedController = pygame.time.Clock()
 pygame.display.set_caption("Snake game.")
 screen = pygame.display.set_mode((720, 480))
 
@@ -59,10 +57,8 @@ white = pygame.Color(255, 255, 255)
 if check_errors[1] > 0:
     print("There was an error in initialization")
     sys.exit(-1)
-
 else:
     print("Successfully initialized")
-
 
 while True:
     screen.fill(white)
@@ -72,7 +68,7 @@ while True:
 
         if event.type == pygame.QUIT:
             pygame.quit()
-            sys.exit()
+            sys.exit(1)
 
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
@@ -97,14 +93,13 @@ while True:
     if changeDirectionTo == 'DOWN' and direction != 'UP':
         direction = 'DOWN'
 
-    # updating the position of the snake
     if direction == 'RIGHT':
         snake_position[0] += 10
-    if direction == 'LEFT':
+    elif direction == 'LEFT':
         snake_position[0] -= 10
-    if direction == 'UP':
+    elif direction == 'UP':
         snake_position[1] -= 10
-    if direction == 'DOWN':
+    elif direction == 'DOWN':
         snake_position[1] += 10
 
     # checking if the player ate the food
@@ -118,7 +113,7 @@ while True:
         food_position = [random.randrange(0, 72) * 10, random.randrange(1, 48) * 10]
         foodSpawned = True
 
-    # drawing the snake's body using the built-in pygame function 'draw'
+    # drawing the snake's body
     for position in snake_body:
         pygame.draw.rect(screen, green, pygame.Rect(position[0], position[1], 10, 10))
 
@@ -136,6 +131,5 @@ while True:
     showScore()
     pygame.display.flip()
 
-    # this line is responsible of controlling the speed of the game
-    fpsController.tick(20)
+    gamePlaySpeedController.tick(20)
     
