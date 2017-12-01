@@ -8,7 +8,6 @@ import pygame, sys, random, time
 
 
 def gameOver():
-
     font = pygame.font.SysFont('calibri', 100)
     surface = font.render('Game Over!', True, red)
     rect = surface.get_rect()
@@ -21,15 +20,12 @@ def gameOver():
 
 
 def showScore(isGameOver = False):
-
+    xValue = 360 if isGameOver else 65
+    yValue = 130 if isGameOver else 30
     fontSize = 30 if not isGameOver else 56
     font = pygame.font.SysFont('calibri', fontSize)
     surface = font.render('Score: ' + str(score), True, black)
     rect = surface.get_rect()
-
-    xValue = 360 if isGameOver else 65
-    yValue = 130 if isGameOver else 30
-
     rect.midtop = (xValue, yValue)
     screen.blit(surface, rect)
 
@@ -57,8 +53,6 @@ white = pygame.Color(255, 255, 255)
 if check_errors[1] > 0:
     print("There was an error in initialization")
     sys.exit(-1)
-else:
-    print("Successfully initialized")
 
 while True:
     screen.fill(white)
@@ -130,6 +124,4 @@ while True:
 
     showScore()
     pygame.display.flip()
-
     gamePlaySpeedController.tick(20)
-    
